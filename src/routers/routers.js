@@ -1,4 +1,5 @@
 const express = require('express');
+const { TodoRecord } = require('../../model/todo.record');
 
 const routers = express.Router();
 
@@ -7,10 +8,16 @@ routers
     res.render('main/todo_form');
   })
   .post('/add', async (req, res) => {
-    console.log(req.body);
-    res.render('main/added', {
-      todo: req.body.todo,
+    const todo = new TodoRecord({
+      title: req.body.todo,
     });
+    // todo.insertData();
+
+    res.render('main/added', {
+      title: req.body.todo,
+    });
+
+    // res.json({ title: req.body.title });
   });
 
 module.exports = { routers };
