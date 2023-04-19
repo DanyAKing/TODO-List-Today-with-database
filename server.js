@@ -1,5 +1,6 @@
 const express = require('express');
 const { engine } = require('express-handlebars');
+const { redirect } = require('./src/routers/redirect');
 const { routers } = require('./src/routers/routers');
 
 const app = express();
@@ -9,7 +10,8 @@ app.use(express.urlencoded({
 }));
 app.use(express.json());
 app.use(express.static('public'));
-app.use('/', routers);
+app.use('/', redirect);
+app.use('/todolist', routers);
 app.engine('hbs', engine({
   extname: '.hbs',
 }));
