@@ -1,9 +1,25 @@
-<div class="contener">
-  <div class="home__content">
+<div class="container">
+  <h1 class="header__text">What you can do today?</h1>
+  <div class="todo__content">
     <form class="main__form" autocomplete="off" method="post" action="/todolist/add">
-      <input type="text" name="todo" placeholder="What u can do today ?">
-      <input type="submit" value="Save">
-    </form>
-    <div class="todo__list"></div>
+
+      <input
+        type="text"
+        name="todo"
+        placeholder="Write..."
+      >
+      <input 
+        type="submit"
+        value="Save"
+      >
+
+    </form>    
+  </div>
+  <div class="todo__list">
+
+    {{#each todo}}
+      <p class="single__todo">{{title}}</p>
+    {{/each}}
+
   </div>
 </div>

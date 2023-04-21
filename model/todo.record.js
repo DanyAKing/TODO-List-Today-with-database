@@ -26,7 +26,7 @@ class TodoRecord {
       this.id = uuidv4();
     }
 
-    await pool.execute('INSERT INTO `todos` VALUES(:id, :title);', {
+    await pool.execute('INSERT INTO `todos` (`todos`.`id`, `todos`.`title`) VALUES(:id, :title);', {
       id: this.id,
       title: this.title,
     });
@@ -70,14 +70,15 @@ class TodoRecord {
     return new TodoRecord(result[0]);
   };
 
-  static findAll = async () => {
-    const [results] = await pool.execute('SELECT * FROM `todos`;');
+  static getAll = async () => {
+    const [results] = await pool.execute('SELECT * FROM `todos` ORDER BY `todos`.`date` ASC;');
+    return results;
 
-    if (results.length === null) {
-      console.log(results);
-    } else {
-      throw new Error('Todos empty.');
-    }
+    // if (results.length === null) {
+    //   console.log(results);
+    // } else {
+    //   throw new Error('Todos empty.');
+    // }
   };
 }
 

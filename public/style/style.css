@@ -50,6 +50,21 @@ body {
   padding: 0 0 52px 0;
 }
 
+.todo__list {
+  align-content: center;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  padding-top: 22px;
+}
+
+.todo__list p {
+  display: flex;
+  font-size: 18px;
+  font-weight: 600;
+  justify-content: center;
+  padding: 12px 0;
+}
 
 
 /* added */
