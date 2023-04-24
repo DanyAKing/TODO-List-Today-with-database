@@ -4,22 +4,41 @@ const { TodoRecord } = require('../../model/todo.record');
 const routers = express.Router();
 
 routers
+// get todos
   .get('/', async (req, res) => {
     res
-      .render('main/todo_form', {
+      .render('templates/todo_form', {
         todo: await TodoRecord.getAll(),
       });
   })
-  .post('/add', async (req, res) => {
+  // create todos
+  .post('/added', async (req, res) => {
     const todo = await new TodoRecord({
       title: req.body.todo,
     });
-    await todo.insertData();
 
     res
       .status(201)
-      .render('main/added', {
+      .render('templates/added', {
         title: req.body.todo,
+        id: await todo.insertData(),
+      });
+  })
+  // get added todos
+  .get('/edit/:id', async (req, res) => {
+    const { id } = req.params;
+
+    res.render('templates/edit', {
+      todos: await TodoRecord.getOne(id),
+    });
+  })
+  // update todos
+  .put('/edited', async (req, res) => {
+    console.log(req.body);
+
+    res
+      .render('templates/edited', {
+        // todos: await TodoRecord.getOne(id),
       });
   });
 
