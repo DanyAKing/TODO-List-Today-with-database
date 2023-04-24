@@ -1,0 +1,22 @@
+<div class="container">
+  <h1 class="header__text">Edit task: {{todos.title}}</h1>
+  {{!-- <h5>{{todos.id}}</h5> --}}
+  <div class="todo__content">
+    <form class="main__form" autocomplete="off" method="POST" action="/todolist/edited">
+
+      <input
+        type="text"
+        name="todo"
+        placeholder="Edit..."
+      >
+      <input 
+        type="submit"
+        value="Edit"
+      >
+
+    </form>
+  </div>
+
+  {{> go_back}}
+
+</div>

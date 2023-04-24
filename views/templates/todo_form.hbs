@@ -1,7 +1,7 @@
 <div class="container">
   <h1 class="header__text">What you can do today?</h1>
   <div class="todo__content">
-    <form class="main__form" autocomplete="off" method="post" action="/todolist/add">
+    <form class="main__form" autocomplete="off" method="post" action="/todolist/added">
 
       <input
         type="text"
@@ -18,7 +18,13 @@
   <div class="todo__list">
 
     {{#each todo}}
-      <p class="single__todo">{{title}}</p>
+    <div class="single__todo">
+      <p>{{title}}</p>
+      <div class="single__todo__btn">
+        <button class="edit__btn">Edit</button>
+        <button class="remove__btn">Remove</button>
+      </div>
+    </div>
     {{/each}}
 
   </div>
