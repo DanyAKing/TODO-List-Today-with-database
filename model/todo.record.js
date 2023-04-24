@@ -48,26 +48,27 @@ class TodoRecord {
 
   updateData = async () => {
     // eslint-disable-next-line no-underscore-dangle
-    this._validation();
+    // this._validation();
     await pool.execute('UPDATE `todos` SET `todos`.`title` = :title WHERE `todos`.`id` = :id;', {
       id: this.id,
       title: this.title,
     });
-    console.log('Updated todos, ID:', this.id, 'update todos:', this.title);
+    // console.log('Updated todos, ID:', this.id, 'update todos:', this.title);
   };
 
-  static find = async (id) => {
+  static getOne = async (id) => {
     const [result] = await pool.execute('SELECT * FROM `todos` WHERE `id` = :id', {
       id,
     });
 
-    if (result.length === 1) {
-      console.log('Find todos, ID', result[0].id, 'todo:', result[0].title);
-    } else {
-      throw new Error('Cannot find todos.');
-    }
+    // if (result.length === 1) {
+    //   console.log('Find todos, ID', result[0].id, 'todo:', result[0].title);
+    // } else {
+    //   throw new Error('Cannot find todos.');
+    // }
 
-    return new TodoRecord(result[0]);
+    // return new TodoRecord(result[0]);
+    return result[0];
   };
 
   static getAll = async () => {
