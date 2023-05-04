@@ -1,15 +1,13 @@
 <div class="container">
-  <h1 class="header__text">Added task:</h1>
-  <div class="todo__content__added">
+  <h2 class="header__text">Added task:</h2>
+  <div class="todo__content">
 
-    {{title}}
+    <h2>{{title}}</h2>
     
-  <div class="added__btn">
-    {{!-- <button class="added__edit__btn">Edit</button> --}}
+  <div class="edit__btn">
     <a href="/todolist/edit/{{id}}">Edit</a>
   </div>
   </div>
-
 
   {{> go_back}}
 

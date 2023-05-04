@@ -13,9 +13,14 @@ body {
   width: 100%;
 }
 
-/* .container {
-  position: relative;
-} */
+.container {
+  /* align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: inherit;
+  width: 100%;
+  height: 100vh; */
+}
 
 
 
@@ -26,8 +31,8 @@ body {
   box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.3);
   display: flex;
   height: auto;
-  justify-content: center;
-  width: 464px;
+  justify-content: space-around;
+  width: 564px;
   padding: 22px 0;
 }
 
@@ -56,14 +61,41 @@ body {
   flex-direction: column;
   flex-wrap: wrap;
   padding-top: 22px;
+  width: 564px;
 }
 
-.todo__list p {
+.single__todo {
+  display: flex ;
+  justify-content: center;
+  align-items: center;
+  width: inherit;
+}
+
+.single__todo p {
   display: flex;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 600;
   justify-content: center;
   padding: 12px 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.single__todo__btn {
+  display: flex;
+  align-items: center;
+  padding: 0 12px 0 12px;
+}
+
+.single__todo button {
+  align-items: center;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-block;
+  margin-right: 4px;
+  height: 22px;
+  width: 62px;
 }
 
 
@@ -79,6 +111,37 @@ body {
   padding: 22px 0;
 }
 
+
+
+/* edit */
+.todo__content__edit {
+  background-color: bisque;
+  border-radius: 8px;
+  box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.3);
+  display: flex;
+  height: auto;
+  justify-content: center;
+  width: 464px;
+  padding: 22px 0;
+}
+
+.edit__btn {
+  align-items: center;
+  background-color: darkseagreen;
+  border: solid 1px black;
+  border-radius: 6px;
+  box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.3);
+  display: flex;
+  height: 22px;
+  justify-content: center;
+  width: 62px;
+}
+
+.edit__btn a {
+  color: black;
+  cursor: pointer;
+  text-decoration: none;
+}
 
 
 /* partials */

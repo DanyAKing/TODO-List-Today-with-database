@@ -1,12 +1,12 @@
 <div class="container">
-  <h1 class="header__text">Edit task: {{todos.title}}</h1>
+  <h2 class="header__text">Edit task: {{todos.title}}</h2>
   {{!-- <h5>{{todos.id}}</h5> --}}
   <div class="todo__content">
-    <form class="main__form" autocomplete="off" method="POST" action="/todolist/edited">
+    <form class="main__form" autocomplete="off" method="POST" action="/todolist/edited/{{todos.id}}?_method=PUT">
 
       <input
         type="text"
-        name="todo"
+        name="todos"
         placeholder="Edit..."
       >
       <input 

@@ -5,7 +5,7 @@
 
       <input
         type="text"
-        name="todo"
+        name="todos"
         placeholder="Write..."
       >
       <input 
@@ -17,12 +17,17 @@
   </div>
   <div class="todo__list">
 
-    {{#each todo}}
+    {{#each todoList}}
     <div class="single__todo">
       <p>{{title}}</p>
       <div class="single__todo__btn">
-        <button class="edit__btn">Edit</button>
-        <button class="remove__btn">Remove</button>
+        <div class="edit__btn">
+          <a href="/todolist/edit/{{id}}">Edit</a>
+        </div>
+        <div class="edit__btn">
+          <a href="/todolist/remove/{{id}}">Remove</a>
+        </div>
+
       </div>
     </div>
     {{/each}}

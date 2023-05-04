@@ -11,7 +11,7 @@ class TodoRecord {
   }
 
   _validation = () => {
-    if (this.title.trim().length < 5) {
+    if (this.title.trim().length < 3) {
       throw new Error('Invalid title, title should be at least 5 characters.');
     }
 
@@ -48,7 +48,7 @@ class TodoRecord {
 
   updateData = async () => {
     // eslint-disable-next-line no-underscore-dangle
-    // this._validation();
+    this._validation();
     await pool.execute('UPDATE `todos` SET `todos`.`title` = :title WHERE `todos`.`id` = :id;', {
       id: this.id,
       title: this.title,
@@ -67,7 +67,6 @@ class TodoRecord {
     //   throw new Error('Cannot find todos.');
     // }
 
-    // return new TodoRecord(result[0]);
     return result[0];
   };
 
