@@ -1,5 +1,6 @@
 const express = require('express');
 const { TodoRecord } = require('../../model/todo.record');
+// const { todoCreator } = require('../../model/todo.creator');
 
 const routers = express.Router();
 
@@ -8,19 +9,20 @@ routers
   .get('/', async (req, res) => {
     res
       .render('templates/todo_form', {
-        todo: await TodoRecord.getAll(),
+        todoList: await TodoRecord.getAll(),
       });
   })
   // create todos
   .post('/added', async (req, res) => {
+    const title = req.body.todos;
     const todo = await new TodoRecord({
-      title: req.body.todo,
+      title,
     });
 
     res
       .status(201)
       .render('templates/added', {
-        title: req.body.todo,
+        title: req.body.todos,
         id: await todo.insertData(),
       });
   })
@@ -29,29 +31,44 @@ routers
     const { id } = req.params;
 
     res.render('templates/edit', {
+      // static method
       todos: await TodoRecord.getOne(id),
     });
   })
   // update todos
-  .put('/edited', async (req, res) => {
-    console.log(req.body);
+  .put('/edited/:id', async (req, res) => {
+    const { id } = req.params;
+    const { todos } = req.body;
+
+    const todo = new TodoRecord({
+      id,
+      title: todos,
+    });
+    await todo.updateData();
 
     res
       .render('templates/edited', {
-        // todos: await TodoRecord.getOne(id),
+        // static method
+        todos: await TodoRecord.getOne(id),
       });
+  })
+  // confirm delete
+  .get('/remove/:id', async (req, res) => {
+    const { id } = req.params;
+
+    res.render('templates/remove', {
+      // static method
+      todos: await TodoRecord.getOne(id),
+    });
+  })
+  // delete todos
+  .get('/removed/:id', async (req, res) => {
+    const { id } = req.params;
+
+    res.render('templates/removed', {
+      // static method
+      todo: await TodoRecord.deleteData(id),
+    });
   });
 
 module.exports = { routers };
-
-// const { v4: uuidv4 } = require('uuid');
-// const { pool } = require('./utils/db');
-// const { TodoRecord } = require('./model/todo.record');
-
-// (async () => {
-//   const findTodo = await TodoRecord.find('5758ad56-e5a5-40e3-8849-bf3c0f69cff3');
-//   findTodo.title = 'new title';
-//   await findTodo.updateData();
-
-//   await pool.end();
-// })();
