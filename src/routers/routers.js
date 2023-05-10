@@ -62,7 +62,7 @@ routers
     });
   })
   // delete todos
-  .get('/removed/:id', async (req, res) => {
+  .delete('/removed/:id', async (req, res) => {
     const { id } = req.params;
 
     res.render('templates/removed', {

@@ -34,18 +34,6 @@ class TodoRecord {
     return this.id;
   };
 
-  deleteData = async () => {
-    if (!this.id) {
-      throw new Error('Todo has no ID.');
-    }
-
-    await pool.execute('DELETE FROM `todos` WHERE `todos`.`id` = :id;', {
-      id: this.id,
-    });
-
-    console.log('Removed todos about ID', this.id);
-  };
-
   updateData = async () => {
     // eslint-disable-next-line no-underscore-dangle
     this._validation();
@@ -54,6 +42,16 @@ class TodoRecord {
       title: this.title,
     });
     // console.log('Updated todos, ID:', this.id, 'update todos:', this.title);
+  };
+
+  static deleteData = async (id) => {
+    // if (!this.id) {
+    //   throw new Error('Todo has no ID.');
+    // }
+
+    await pool.execute('DELETE FROM `todos` WHERE `todos`.`id` = :id;', {
+      id,
+    });
   };
 
   static getOne = async (id) => {
@@ -66,6 +64,7 @@ class TodoRecord {
     // } else {
     //   throw new Error('Cannot find todos.');
     // }
+    // console.log(result[0]);
 
     return result[0];
   };

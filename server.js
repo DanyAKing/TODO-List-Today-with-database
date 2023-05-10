@@ -1,3 +1,4 @@
+const methodOverride = require('method-override');
 const express = require('express');
 const { engine } = require('express-handlebars');
 const { redirect } = require('./src/routers/redirect');
@@ -10,6 +11,7 @@ app.use(express.urlencoded({
 }));
 app.use(express.json());
 app.use(express.static('public'));
+app.use(methodOverride('_method'));
 app.use('/', redirect);
 app.use('/todolist', routers);
 app.engine('hbs', engine({

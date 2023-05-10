@@ -5,8 +5,11 @@
     <h2>{{todos.title}}</h2>
     
   <div class="choose__btn">
-    <a href="/todolist/removed/{{todos.id}}">Yes</a>
+    <form action="/todolist/removed/{{todos.id}}?_method=DELETE" method="post">
+      <button>Yes</button>
+    </form>
     <a href="/todolist">No</a>
+    
   </div>
   </div>
 
