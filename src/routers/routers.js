@@ -1,21 +1,23 @@
 const express = require('express');
+const { TodoRepository } = require('../../repositories/todo.repository');
 const { TodoRecord } = require('../../model/todo.record');
-// const { todoCreator } = require('../../model/todo.creator');
+const { NotFoundError } = require('../../errors-handling/error-handling');
 
 const routers = express.Router();
 
 routers
-// get todos
+// get all todos from database
   .get('/', async (req, res) => {
     res
       .render('templates/todo_form', {
-        todoList: await TodoRecord.getAll(),
+        todoList: await TodoRepository.getAll(),
       });
   })
-  // create todos
+  // create todos and add to database
   .post('/added', async (req, res) => {
     const title = req.body.todos;
-    const todo = await new TodoRecord({
+
+    const todo = new TodoRecord({
       title,
     });
 
@@ -23,17 +25,23 @@ routers
       .status(201)
       .render('templates/added', {
         title: req.body.todos,
-        id: await todo.insertData(),
+        id: await TodoRepository.insertData(todo),
       });
   })
-  // get added todos
+  // get one todos from database
   .get('/edit/:id', async (req, res) => {
     const { id } = req.params;
 
-    res.render('templates/edit', {
-      // static method
-      todos: await TodoRecord.getOne(id),
-    });
+    const todos = await TodoRepository.getOne(id);
+
+    if (todos === undefined) {
+      throw new NotFoundError();
+    } else {
+      res.render('templates/edit', {
+        // todos: await TodoRepository.getOne(id),
+        todos,
+      });
+    }
   })
   // update todos
   .put('/edited/:id', async (req, res) => {
@@ -44,30 +52,27 @@ routers
       id,
       title: todos,
     });
-    await todo.updateData();
+    await TodoRepository.updateData(todo);
 
     res
       .render('templates/edited', {
-        // static method
-        todos: await TodoRecord.getOne(id),
+        todos: await TodoRepository.getOne(id),
       });
   })
-  // confirm delete
+  // get one todos from database to delete
   .get('/remove/:id', async (req, res) => {
     const { id } = req.params;
 
     res.render('templates/remove', {
-      // static method
-      todos: await TodoRecord.getOne(id),
+      todos: await TodoRepository.getOne(id),
     });
   })
-  // delete todos
+  // delete todos from database
   .delete('/removed/:id', async (req, res) => {
     const { id } = req.params;
 
     res.render('templates/removed', {
-      // static method
-      todo: await TodoRecord.deleteData(id),
+      todo: await TodoRepository.deleteData(id),
     });
   });
 

@@ -4,7 +4,6 @@
 }
 
 body {
-  align-items: center;
   background-color: #5f9ea0;
   display: flex;
   font-family: Georgia, 'Times New Roman', Times, serif;
@@ -13,10 +12,15 @@ body {
   width: 100%;
 }
 
+.container {
+  margin-top: 100px;
+}
+
 
 
 /* todo_form */
 .todo__content {
+  align-items: center;
   background-color: bisque;
   border-radius: 8px;
   box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.3);
