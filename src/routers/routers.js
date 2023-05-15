@@ -1,7 +1,7 @@
 const express = require('express');
 const { TodoRepository } = require('../../repositories/todo.repository');
 const { TodoRecord } = require('../../model/todo.record');
-const { NotFoundError } = require('../../errors-handling/error-handling');
+const { NotFoundError, handleError } = require('../../errors-handling/error-handling');
 
 const routers = express.Router();
 
@@ -29,18 +29,21 @@ routers
       });
   })
   // get one todos from database
-  .get('/edit/:id', async (req, res) => {
+  .get('/edit/:id', async (req, res, next) => {
     const { id } = req.params;
 
-    const todos = await TodoRepository.getOne(id);
+    try {
+      const todos = await TodoRepository.getOne(id);
 
-    if (todos === undefined) {
-      throw new NotFoundError();
-    } else {
+      if (!todos) {
+        throw new NotFoundError();
+      }
+
       res.render('templates/edit', {
-        // todos: await TodoRepository.getOne(id),
         todos,
       });
+    } catch (err) {
+      next(err); // przekazanie błędu do kolejnego middlewara obsługi błędów
     }
   })
   // update todos

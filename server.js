@@ -3,6 +3,7 @@ const express = require('express');
 const { engine } = require('express-handlebars');
 const { redirect } = require('./src/routers/redirect');
 const { routers } = require('./src/routers/routers');
+const { handleError } = require('./errors-handling/error-handling');
 
 const app = express();
 
@@ -19,6 +20,10 @@ app.engine('hbs', engine({
 }));
 app.set('view engine', 'hbs');
 app.set('views', './views');
+
+app.use((err, req, res, next) => {
+  handleError(err, req, res);
+});
 
 app.listen(3000, '127.0.0.1', () => {
   console.log('Server started successfully!');
