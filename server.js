@@ -4,6 +4,7 @@ const { engine } = require('express-handlebars');
 const { redirect } = require('./src/routers/redirect');
 const { routers } = require('./src/routers/routers');
 const { handleError } = require('./errors-handling/error-handling');
+const { handlebarsHelper } = require('./utils/handlebars-helper');
 
 const app = express();
 
@@ -17,7 +18,9 @@ app.use('/', redirect);
 app.use('/todolist', routers);
 app.engine('hbs', engine({
   extname: '.hbs',
+  helpers: handlebarsHelper,
 }));
+
 app.set('view engine', 'hbs');
 app.set('views', './views');
 
@@ -26,5 +29,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(3000, '127.0.0.1', () => {
-  console.log('Server started successfully!');
+  console.log('Server started successfully! Visit http://127.0.0.1:3000.');
 });
