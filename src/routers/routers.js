@@ -1,7 +1,7 @@
 const express = require('express');
 const { TodoRepository } = require('../../repositories/todo.repository');
 const { TodoRecord } = require('../../model/todo.record');
-const { NotFoundError, handleError } = require('../../errors-handling/error-handling');
+const { NotFoundError } = require('../../errors-handling/error-handling');
 
 const routers = express.Router();
 
@@ -14,19 +14,25 @@ routers
       });
   })
   // create todos and add to database
-  .post('/added', async (req, res) => {
+  .post('/added', async (req, res, next) => {
     const title = req.body.todos;
 
-    const todo = new TodoRecord({
-      title,
-    });
-
-    res
-      .status(201)
-      .render('templates/added', {
-        title: req.body.todos,
-        id: await TodoRepository.insertData(todo),
+    try {
+      const todo = new TodoRecord({
+        title,
       });
+
+      await TodoRepository._validation(todo);
+
+      res
+        .status(201)
+        .render('templates/added', {
+          title: req.body.todos,
+          id: await TodoRepository.insertData(todo),
+        });
+    } catch (err) {
+      next(err); // przekazanie błędu do kolejnego middlewara obsługi błędów
+    }
   })
   // get one todos from database
   .get('/edit/:id', async (req, res, next) => {
@@ -47,20 +53,26 @@ routers
     }
   })
   // update todos
-  .put('/edited/:id', async (req, res) => {
+  .put('/edited/:id', async (req, res, next) => {
     const { id } = req.params;
     const { todos } = req.body;
 
-    const todo = new TodoRecord({
-      id,
-      title: todos,
-    });
-    await TodoRepository.updateData(todo);
-
-    res
-      .render('templates/edited', {
-        todos: await TodoRepository.getOne(id),
+    try {
+      const todo = new TodoRecord({
+        id,
+        title: todos,
       });
+
+      TodoRepository._validation(todo);
+      await TodoRepository.updateData(todo);
+
+      res
+        .render('templates/edited', {
+          todos: await TodoRepository.getOne(id),
+        });
+    } catch (err) {
+      next(err); // przekazanie błędu do kolejnego middlewara obsługi błędów
+    }
   })
   // get one todos from database to delete
   .get('/remove/:id', async (req, res) => {

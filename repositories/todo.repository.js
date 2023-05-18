@@ -1,7 +1,9 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-underscore-dangle */
 const { v4: uuidv4 } = require('uuid');
 const { pool } = require('../utils/db');
 const { TodoRecord } = require('../model/todo.record');
+const { ValidationError } = require('../errors-handling/error-handling');
 
 class TodoRepository {
   static _checkRecord(record) {
@@ -10,8 +12,19 @@ class TodoRepository {
     }
   }
 
+  static _validation(record) {
+    if (record.title.trim().length < 3) {
+      throw new ValidationError();
+    }
+
+    if (record.title.length > 28) {
+      throw new ValidationError();
+    }
+  }
+
   static insertData = async (record) => {
     TodoRepository._checkRecord(record);
+    TodoRepository._validation(record);
     // krócej this.id = this.id ?? uuidv4();
     if (typeof record.id === 'undefined') {
       record.id = uuidv4();
