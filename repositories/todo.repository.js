@@ -13,11 +13,7 @@ class TodoRepository {
   }
 
   static _validation(record) {
-    if (record.title.trim().length < 3) {
-      throw new ValidationError();
-    }
-
-    if (record.title.length > 28) {
+    if ((record.title.trim().length < 3) || (record.title.length > 28)) {
       throw new ValidationError();
     }
   }
@@ -25,6 +21,7 @@ class TodoRepository {
   static insertData = async (record) => {
     TodoRepository._checkRecord(record);
     TodoRepository._validation(record);
+
     // krócej this.id = this.id ?? uuidv4();
     if (typeof record.id === 'undefined') {
       record.id = uuidv4();
@@ -39,8 +36,6 @@ class TodoRepository {
   };
 
   static updateData = async (record) => {
-  // eslint-disable-next-line no-underscore-dangle
-    record._validation();
     await pool.execute('UPDATE `todos` SET `todos`.`title` = :title WHERE `todos`.`id` = :id;', {
       id: record.id,
       title: record.title,
@@ -48,10 +43,6 @@ class TodoRepository {
   };
 
   static deleteData = async (id) => {
-  // if (!this.id) {
-  //   throw new Error('Todo has no ID.');
-  // }
-
     await pool.execute('DELETE FROM `todos` WHERE `todos`.`id` = :id;', {
       id,
     });
@@ -61,13 +52,6 @@ class TodoRepository {
     const [result] = await pool.execute('SELECT * FROM `todos` WHERE `id` = :id', {
       id,
     });
-
-    // if (result.length === 1) {
-    //   console.log('Find todos, ID', result[0].id, 'todo:', result[0].title);
-    // } else {
-    //   throw new Error('Cannot find todos.');
-    // }
-    // console.log(result[0]);
 
     return result[0];
   };

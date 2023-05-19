@@ -18,7 +18,7 @@ const handleError = async (err, req, res) => {
       .status(400)
       .render('templates/errors/error-incorrect-syntax', {
         headerMessage: 'Incorrect syntax!',
-        message: 'Todos incorrect syntax. Todos must have more than 3 letters and less than 28.'
+        message: 'Todos incorrect syntax. Todos must have more than 3 letters and less than 28.',
       });
   }
 };

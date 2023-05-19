@@ -1,7 +1,5 @@
 const handlebarsHelper = {
-  increment: () => parseInt(0, 10) + 1,
-    // const counter = 0;
-    // return counter++;
+  increment: (num) => parseInt(num, 10) + 1,
 };
 
 module.exports = { handlebarsHelper };

@@ -22,8 +22,6 @@ routers
         title,
       });
 
-      await TodoRepository._validation(todo);
-
       res
         .status(201)
         .render('templates/added', {
@@ -45,9 +43,10 @@ routers
         throw new NotFoundError();
       }
 
-      res.render('templates/edit', {
-        todos,
-      });
+      res
+        .render('templates/edit', {
+          todos,
+        });
     } catch (err) {
       next(err); // przekazanie błędu do kolejnego middlewara obsługi błędów
     }
@@ -63,7 +62,6 @@ routers
         title: todos,
       });
 
-      TodoRepository._validation(todo);
       await TodoRepository.updateData(todo);
 
       res
@@ -77,9 +75,14 @@ routers
   // get one todos from database to delete
   .get('/remove/:id', async (req, res) => {
     const { id } = req.params;
+    const todos = await TodoRepository.getOne(id);
+
+    if (!todos) {
+      throw new NotFoundError();
+    }
 
     res.render('templates/remove', {
-      todos: await TodoRepository.getOne(id),
+      todos,
     });
   })
   // delete todos from database
